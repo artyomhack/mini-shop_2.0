@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Cart A-shop</title>
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<div align="center">
+    <table border="1">
+          <h2>Общая сумма: <b th:text="${cart.summa}">7777</b> </h2>
+              <tr>
+                  <td>Название</td>
+                  <td>Цена</td>
+                  <td>Сумма</td>
+              </tr>
+              <tr th:each="cart_details : ${cart.items}">
+                  <td th:text="${cart_details.title}"></td>
+                  <td th:text="${cart_details.price}"></td>
+                  <td th:text="${cart_details.summa}"></td>
+                  <td><a th:href="@{/cart/{cart_id}/delete/{item_id}(cart_id=${cart.id},item_id=${cart_details.itemId})}">
+                    <span>Убрать</span></a></td>
+              </tr>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Create user A-Shop</title>
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<div class="create_user" align="center">
+  <h2>Изменение данных</h2>
+  <form th:action="@{/users/new}" th:object="${user}" method="post">
+    <table border="1">
+    <tr border="1">
+      <td>Никнейм</td>
+      <td><input type="text" th:field="*{username}"></td>
+    </tr>
+    <tr border="1">
+      <td>Email</td>
+      <td><input type="text" th:field="*{email}"></td>
+    </tr>
+    <tr border="1">
+      <td>Пароль</td>
+      <td><input type="password" th:field="*{password}"></td>
+    </tr>
+    <tr>
+      <td>Повторный пароль</td>
+      <td><input type="password" th:field="*{matchingPassword}"></td>
+    </tr>
+    </table>
+    <br>
+    <button type="submit">сохранить изменения</button>
+  </form>
+</div>
+</body>
+</html>
