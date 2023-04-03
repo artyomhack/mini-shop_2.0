@@ -1,6 +1,7 @@
 package com.anton.eshop.service;
 
 import com.anton.eshop.data.Item;
+import com.anton.eshop.data.Product;
 import com.anton.eshop.dto.ItemDTO;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,8 @@ import java.util.List;
 @Service
 public interface ItemService {
     void create(ItemDTO itemDTO);
+
+    void createByProduct(Long product_id);
 
     Item toEntity(ItemDTO m);
 

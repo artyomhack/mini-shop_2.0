@@ -9,11 +9,8 @@ import java.util.List;
 
 @Service
 public interface CartService {
-    Cart createCart(User user, List<Long> itemIds);
 
-    void addProduct(Cart cart, List<Long> itemIds);
+    //Cart addItemInCart(String username, Long productId);
 
     CartDTO getCartByUsername(String username);
-
-
 }

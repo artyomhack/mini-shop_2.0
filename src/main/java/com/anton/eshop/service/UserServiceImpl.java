@@ -37,18 +37,14 @@ public class UserServiceImpl implements UserService{
     @Override
     public boolean save(UserDTO userDTO) {
         if (Objects.equals(userDTO.getPassword(), userDTO.getMatchingPassword())) {
-            Cart cart = new Cart();
-            cart.setItems(new ArrayList<>());
             User user = User.builder()
                     .username(userDTO.getUsername())
                     .password(passwordEncoder.encode(userDTO.getPassword()))
                     .email(userDTO.getEmail())
                     .role(userDTO.getRole())
-                    .cart(cart)
                     .build();
 
             userRepository.save(user);
-            cartRepository.save(cart);
             return true;
         } else {
             throw new RuntimeException("Password is not equals.");

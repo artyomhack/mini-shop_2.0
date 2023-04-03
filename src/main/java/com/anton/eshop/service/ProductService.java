@@ -12,6 +12,4 @@ public interface ProductService {
     List<ProductDTO> fetchAll();
 
     ProductDTO fetchId(Long id);
-
-    void addUserToCart(String username, Long productId);
 }

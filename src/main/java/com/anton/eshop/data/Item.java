@@ -30,7 +30,7 @@ public class Item {
     @Column(name = "quantity")
     private int quantity;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 

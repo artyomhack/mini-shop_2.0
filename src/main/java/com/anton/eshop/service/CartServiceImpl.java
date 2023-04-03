@@ -10,6 +10,7 @@ import com.anton.eshop.repository.CartRepository;
 import com.anton.eshop.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
@@ -30,29 +31,20 @@ public class CartServiceImpl implements CartService {
         this.itemService = itemService;
     }
 
-    @Override
-    public Cart createCart(User user, List<Long> productsIds) {
-        Cart cart = user.getCart();
-
-        if (cart == null) {
-            cart = new Cart();
-            user.setCart(cart);
-
-        }
-        cart.setItems(getCollectItemByItemIds(productsIds));
-        Cart id = cartRepository.save(cart);
-        System.out.println("ID cart:" + id.getId());
-        return id;
-    }
-
-    @Override
-    public void addProduct(Cart cart, List<Long> itemIds) {
-        List<Item> items = cart.getItems();
-        List<Item> updateItems = items == null ? new ArrayList<>()
-                : new ArrayList<>(items);
-        updateItems.addAll(getCollectItemByItemIds(itemIds));
-        cart.setItems(updateItems);
-    }
+//    @Override
+//    @Transactional
+//    public Cart addItemInCart(String username, Long productId) {
+//        User user = userService.fetchUserByUsername(username);
+//        if (user.getCart() == null) {
+//            Cart cart = new Cart();
+//            user.setCart(cart);
+//            cart.setUser(user);
+//        }
+//        Item item = ;
+//        Cart cart = user.getCart();
+//        cart.getItems().add(item);
+//        return cart;
+//    }
 
     @Override
     public CartDTO getCartByUsername(String username) {
@@ -75,7 +67,7 @@ public class CartServiceImpl implements CartService {
         for (Long id : productsIds) {
             if (productRepository.findById(id).isPresent()) {
                 items.add(itemService.toEntity(
-                        itemMapper.productMapToItemModel(
+                        itemMapper.productDTOMapToItemModel(
                         productMapper.productMapProductDTO(productRepository.findById(id).get()
                         ))
                 ));

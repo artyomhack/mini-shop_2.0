@@ -27,7 +27,7 @@ public class Cart {
     @JoinColumn(name="user_id")
     private User user;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.PERSIST})
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinTable(name = "carts_items",
             joinColumns = @JoinColumn(name = "cart_id"),

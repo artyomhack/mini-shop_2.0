@@ -53,7 +53,6 @@ public class CartController {
             return "redirect:/cart";
         }
 
-        productService.addUserToCart(principal.getName(), product_id);
 
         return "redirect:/cart";
     }

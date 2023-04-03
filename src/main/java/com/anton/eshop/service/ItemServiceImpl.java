@@ -36,12 +36,21 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
+    public void createByProduct(Long product_id) {
+        Product product = productRepository.getReferenceById(product_id);
+        Item item = toEntity(mapper.productMapToItemModel(product));
+        item.setProduct(product);
+        itemRepository.save(item);
+    }
+
+    @Override
     public Item toEntity(ItemDTO m) {
         Product product = new Product();
         product.setId(m.getId());
 
         Item entity = Item.builder()
                 .id(m.getId())
+                .title(m.getTitle())
                 .product(product)
                 .quantity(m.getAmount())
                 .price(m.getPrice())
