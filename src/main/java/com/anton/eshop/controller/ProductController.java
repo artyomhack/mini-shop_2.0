@@ -6,7 +6,9 @@ import com.anton.eshop.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
@@ -41,6 +43,28 @@ public class ProductController {
         model.addAttribute("product", productDTO);
         return "redirect:/products";
     }
+
+    @GetMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable(name = "id") String product_id) {
+        productService.deleteProductById(Long.valueOf(product_id));
+        return "redirect:/products";
+    }
+
+    @GetMapping("/update/{id}")
+    private String showUpdateProduct(@PathVariable(name = "id") String product_id,
+                                            Model model) {
+        ProductDTO productDTO = productService.fetchId(Long.valueOf(product_id));
+        model.addAttribute("product", productDTO);
+        return "product_update";
+    }
+
+    @PostMapping("/update")
+    private String updateProduct(@Valid ProductDTO productDTO) {
+        productService.update(productDTO);
+        return "redirect:/products";
+    }
+
+
 
 
 }

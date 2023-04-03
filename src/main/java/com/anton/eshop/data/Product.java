@@ -30,6 +30,6 @@ public class Product {
 
     private Integer amount;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.MERGE})
     private List<Item> items;
 }

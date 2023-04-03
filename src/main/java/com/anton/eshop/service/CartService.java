@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public interface CartService {
 
-    //Cart addItemInCart(String username, Long productId);
+    void addItemInCart(String username, Long productId);
 
     CartDTO getCartByUsername(String username);
 }

@@ -31,20 +31,22 @@ public class CartServiceImpl implements CartService {
         this.itemService = itemService;
     }
 
-//    @Override
-//    @Transactional
-//    public Cart addItemInCart(String username, Long productId) {
-//        User user = userService.fetchUserByUsername(username);
-//        if (user.getCart() == null) {
-//            Cart cart = new Cart();
-//            user.setCart(cart);
-//            cart.setUser(user);
-//        }
-//        Item item = ;
-//        Cart cart = user.getCart();
-//        cart.getItems().add(item);
-//        return cart;
-//    }
+    @Override
+    @Transactional
+    public void addItemInCart(String username, Long productId) {
+        User user = userService.fetchUserByUsername(username);
+        Item item = new Item();
+        item.setProduct(productRepository.getReferenceById(productId));
+
+        if (user.getCart() == null) {
+            Cart cart = new Cart();
+            user.setCart(cart);
+            cart.setUser(user);
+        }
+
+        Cart cart = user.getCart();
+        cart.getItems().add(item);
+    }
 
     @Override
     public CartDTO getCartByUsername(String username) {

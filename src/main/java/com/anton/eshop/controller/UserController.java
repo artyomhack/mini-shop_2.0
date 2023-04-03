@@ -1,7 +1,6 @@
 package com.anton.eshop.controller;
 
 import com.anton.eshop.data.Role;
-import com.anton.eshop.data.User;
 import com.anton.eshop.dto.UserDTO;
 import com.anton.eshop.dto.mapDTO.UserMapper;
 import com.anton.eshop.service.UserService;
@@ -10,11 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 import java.util.Objects;
 
 @Controller
@@ -30,11 +31,12 @@ public class UserController {
     @GetMapping("/new")
     public String newUser(Model model) {
         model.addAttribute("user", new UserDTO());
+        model.addAttribute("roles", Role.values());
         return "user";
     }
 
     @PostMapping("/new")
-    public String saveUser(@Valid UserDTO userDTO, Model model, BindingResult bindingResult) {
+    public String saveUser(UserDTO userDTO, Model model, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
                 return "redirect:/users";
         }
@@ -45,18 +47,18 @@ public class UserController {
 
     @GetMapping
     public String userList(Model model) {
-        model.addAttribute("users", userService.fetchAll());
-
+        List<UserDTO> users = userService.fetchAll();
+        model.addAttribute("users", users);
         return "userList";
     }
 
     @GetMapping("/profile")
-    public String profileUser(Model model, Principal principal) {
+    public String profileUser(UserDTO userDTO, Model model, Principal principal) {
         if (Objects.isNull(principal)) {
             throw new RuntimeException("You're not logging!");
         }
 
-        UserDTO userDTO  = UserMapper.MAPPER.userMapUserDTO(
+        userDTO  = UserMapper.MAPPER.userMapUserDTO(
                 userService.fetchUserByUsername(principal.getName()));
 
         model.addAttribute("user", userDTO);
@@ -67,7 +69,7 @@ public class UserController {
     @PostMapping("/profile")
     public String updateProfileUser(@Valid UserDTO userDTO, Model model, BindingResult bindingResult) {
 
-        if (bindingResult.hasErrors()) return "redirect:/users/profile";
+        if (bindingResult.hasErrors())  return "redirect:/users/profile";
 
         if (Objects.nonNull(userDTO.getPassword()) && !userDTO.getPassword().isEmpty() &&
                 !Objects.equals(userDTO.getPassword(), userDTO.getMatchingPassword())) {
@@ -76,8 +78,13 @@ public class UserController {
         }
 
         userService.updateUser(userDTO);
-        return "redirect:/users/profile";
+        return "redirect:/users";
     }
 
+    @GetMapping("/delete/{id}")
+    private String deleteUser(@PathVariable(name = "id") String user_id) {
 
+        userService.deleteUserById(Long.valueOf(user_id));
+        return "redirect:/users";
+    }
 }

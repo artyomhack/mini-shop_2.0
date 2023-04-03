@@ -9,7 +9,12 @@ import java.util.List;
 public interface ProductService {
     void create(ProductDTO productDTO);
 
+    void update(ProductDTO productDTO);
+
     List<ProductDTO> fetchAll();
 
     ProductDTO fetchId(Long id);
+
+    void deleteProductById(Long product_id);
+
 }

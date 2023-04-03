@@ -1,9 +1,6 @@
 package com.anton.eshop.service;
 
-import com.anton.eshop.data.Cart;
-import com.anton.eshop.data.Item;
-import com.anton.eshop.data.Product;
-import com.anton.eshop.data.User;
+import com.anton.eshop.data.*;
 import com.anton.eshop.dto.ProductDTO;
 import com.anton.eshop.dto.mapDTO.ItemMapper;
 import com.anton.eshop.dto.mapDTO.ProductMapper;
@@ -56,6 +53,12 @@ public class ProductServiceImpl implements ProductService {
         return productDTO;
     }
 
+    @Override
+    public void deleteProductById(Long product_id) {
+        if (productRepository.existsById(product_id)) {
+            productRepository.deleteById(product_id);
+        }
+    }
 
 
     @Override
@@ -72,6 +75,20 @@ public class ProductServiceImpl implements ProductService {
         } else {
             throw new RuntimeException("Product is null");
         }
+    }
+
+    @Override
+    public void update(ProductDTO productDTO) {
+        Product updateProduct = productRepository.getReferenceById(productDTO.getId());
+        boolean isCheck = false;
+
+        if (!Objects.equals(updateProduct.getPrice(), productDTO.getPrice())) isCheck = true;
+
+        if (!Objects.equals(updateProduct.getTitle(), productDTO.getTitle())) isCheck = true;
+
+        if (!Objects.equals(updateProduct.getAmount(), productDTO.getAmount())) isCheck = true;
+
+        if (isCheck) productRepository.save(updateProduct);
     }
 
 

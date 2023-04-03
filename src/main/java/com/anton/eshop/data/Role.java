@@ -1,8 +1,16 @@
 package com.anton.eshop.data;
 
-import lombok.*;
 
-@Getter
 public enum Role {
-    CLIENT,ADMIN,MANAGER;
+    CLIENT("CLIENT"),ADMIN("ADMIN"),MANAGER("MANAGER");
+
+    private final String name;
+
+    Role(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

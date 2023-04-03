@@ -38,7 +38,6 @@ public class MainController {
     @GetMapping("/reg/create")
     public String showUserSignIn(Model model) {
         model.addAttribute("user", new UserDTO());
-        model.addAttribute("roles", List.of(Role.values()));
         return "reg";
     }
 

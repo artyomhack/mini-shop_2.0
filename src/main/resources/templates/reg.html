@@ -32,12 +32,6 @@
             </tr>
         </table>
         <br>
-        <select th:field="*{role}">
-            <option value="0">Кем ты являешься?</option>
-            <option th:each="option : ${roles}" th:value="${option}" th:text="${option}"></option>
-        </select>
-        <br>
-        <br>
         <button type="submit">Зарегистрироваться</button>
     </form>
 </div>

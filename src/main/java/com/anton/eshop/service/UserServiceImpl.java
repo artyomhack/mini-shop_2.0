@@ -1,6 +1,7 @@
 package com.anton.eshop.service;
 
 import com.anton.eshop.data.Cart;
+import com.anton.eshop.data.Role;
 import com.anton.eshop.data.User;
 import com.anton.eshop.dto.UserDTO;
 import com.anton.eshop.dto.mapDTO.UserMapper;
@@ -38,13 +39,14 @@ public class UserServiceImpl implements UserService{
     public boolean save(UserDTO userDTO) {
         if (Objects.equals(userDTO.getPassword(), userDTO.getMatchingPassword())) {
             User user = User.builder()
+                    .id(userDTO.getId())
                     .username(userDTO.getUsername())
                     .password(passwordEncoder.encode(userDTO.getPassword()))
                     .email(userDTO.getEmail())
                     .role(userDTO.getRole())
                     .build();
-
             userRepository.save(user);
+            userDTO.setId(user.getId());
             return true;
         } else {
             throw new RuntimeException("Password is not equals.");
@@ -112,6 +114,18 @@ public class UserServiceImpl implements UserService{
             isCheck = true;
         }
 
+        if (userDTO.getRole() != Role.CLIENT) {
+            updateUser.setRole(userDTO.getRole());
+            isCheck = true;
+        }
+
         if (isCheck) userRepository.save(updateUser);
+    }
+
+    @Override
+    public void deleteUserById(Long user_id) {
+        if (userRepository.existsById(user_id)) {
+            userRepository.deleteById(user_id);
+        }
     }
 }

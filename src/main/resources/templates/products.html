@@ -22,7 +22,10 @@
             <td th:text="${product.amount}">-1</td>
             <td><a th:href="@{/cart/{product_id}(product_id=${product.id})}">Добавить в корзину</a></td>
             <td sec:authorize="hasAnyAuthority('ADMIN','MANAGER')">
-              <a th:href="@{/products/{id}(id=${product.id})}">Удалить</a>
+              <a th:href="@{/products/delete/{id}(id=${product.id})}">Удалить</a>
+            </td>
+            <td sec:authorize="hasAnyAuthority('ADMIN','MANAGER')">
+              <a th:href="@{/products/update/{id}(id=${product.id})}">Изменить</a>
             </td>
           </tr>
         </div>

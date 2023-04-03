@@ -16,6 +16,7 @@ public class UserMapper {
     public UserDTO userMapUserDTO(User user) {
         if (Objects.nonNull(user))
             return UserDTO.builder()
+                    .id(user.getId())
                     .username(user.getUsername())
                     .email(user.getEmail())
                     .number(user.getNumber())
